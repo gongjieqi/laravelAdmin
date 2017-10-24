@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Admin;
+use App\AdminRoles;
+use App\Http\Requests\AdminCreateRequest;
+use App\Http\Requests\EditAdminPostRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,7 +21,8 @@ class AdminController extends Controller
         //
         $admins = Admin::all();
 
-        return view('admin.admin.index',['admins'=>$admins]);
+        $roles = AdminRoles::all(['id','display_name']);
+        return view('admin.admin.index',['admins'=>$admins,'roles'=>$roles])->with('status', 'Profile updated!');;
     }
 
     /**
@@ -37,7 +41,7 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminCreateRequest $request)
     {
         //
         $admin = new Admin();
@@ -48,7 +52,13 @@ class AdminController extends Controller
 
         $admin->save();
 
-        return redirect()->route('admin.index');
+        if(count($request->role_ids > 0)){
+
+            $roles = AdminRoles::whereIn('id',$request->role_ids)->get();
+
+            $admin->attachRoles($roles);
+        }
+        return response('success');
     }
 
     /**
@@ -71,6 +81,9 @@ class AdminController extends Controller
     public function edit($id)
     {
         //
+        $admin = Admin::find($id)->first();
+        $roles = AdminRoles::all(['id','name','display_name']);
+        return view('admin.admin.edit',['admin'=>$admin,'roles'=>$roles]);
     }
 
     /**
@@ -80,9 +93,42 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditAdminPostRequest $request, $id)
     {
-        //
+        //1.有密码通过验证，修改密码
+        $admin = Admin::find($id)->first();
+
+        if(strlen($request->password) > 0){
+            $admin->password = bcrypt($request->password);
+            $admin->save();
+        }
+
+        //2.修改角色
+        if(count($request->role_ids) <=0 ){
+            $admin->detachRoles($admin->roles);
+        }else{
+            $newRoles = AdminRoles::whereIn('id',$request->role_ids)->get();
+            $newRoleIds = [];
+            foreach($newRoles as $role){
+                if(!$admin->hasRole($role->name)){
+                    $admin->attachRole($role);
+                }
+                array_push($newRoleIds,$role->id);
+            }
+
+            $hasRoleIds = [];
+            foreach($admin->roles as $adminRole){
+                array_push($hasRoleIds,$adminRole->id);
+            }
+
+
+            foreach($hasRoleIds as $hasRoleId){
+                if(!in_array($hasRoleId,$newRoleIds)){
+                    $admin->roles()->detach($hasRoleId);
+                }
+            }
+        }
+        return redirect(route('admin.index'))->with('status', '编辑用户:'.$admin->name.'成功');
     }
 
     /**
@@ -94,5 +140,9 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
+
+        $delete =  Admin::find($id)->delete();
+
+        return redirect()->back()->with('status', '删除用户成功');
     }
 }

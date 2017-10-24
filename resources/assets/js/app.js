@@ -8,6 +8,12 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+require('vue-resource');
+
+Vue.http.interceptors.push((request, next) => {
+    request.headers.set('X-CSRF-TOKEN', document.head.querySelector('meta[name="csrf-token"]').content);
+next();
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,7 +22,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('example', require('./components/Example.vue'));
-
+Vue.component('create-user-button', require('./components/CreateUserButton.vue'));
 const app = new Vue({
     el: '#app'
 });

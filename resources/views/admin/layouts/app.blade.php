@@ -22,12 +22,12 @@
     <link href="{{ asset('css/theme/flat-blue.css') }}" rel="stylesheet">
 </head>
 <body class="flat-blue">
-<div class="app-container" id="app">
+<div class="app-container expanded" id="app">
     <div class="row content-container">
         <nav class="navbar navbar-default navbar-fixed-top navbar-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-expand-toggle">
+                    <button type="button" class="navbar-expand-toggle fa-rotate-90">
                         <i class="fa fa-bars icon"></i>
                     </button>
                     <ol class="breadcrumb navbar-breadcrumb">
@@ -140,7 +140,7 @@
     </footer>
 </div>
 <!-- Scripts -->
-<script src="{{ asset('js/lib/jquery.min.js') }}"></script>
+<!--<script src="{{ asset('js/lib/jquery.min.js') }}"></script>
 <script src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/lib/Chart.min.js') }}"></script>
 <script src="{{ asset('js/lib/bootstrap-switch.min.js') }}"></script>
@@ -148,6 +148,9 @@
 <script src="{{ asset('js/lib/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/lib/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/lib/select2.full.min.js') }}"></script>
-<script src="{{ asset('js/theme/app.js') }}"></script>
+<script src="{{ asset('js/theme/app.js') }}"></script>-->
+
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/functions.js') }}"></script>
 </body>
 </html>
