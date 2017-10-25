@@ -151,6 +151,6 @@
 <script src="{{ asset('js/theme/app.js') }}"></script>-->
 
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/functions.js') }}"></script>
+<script src="{{ asset('js/function.js') }}"></script>
 </body>
 </html>

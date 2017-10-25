@@ -17,7 +17,7 @@
                     </li>
                     <li><a href="ui-kits/grid.html">角色列表</a>
                     </li>
-                    <li><a href="ui-kits/button.html">权限列表</a>
+                    <li><a href="{{ route('permission.index') }}">权限列表</a>
                     </li>
                 </ul>
             </div>

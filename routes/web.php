@@ -18,7 +18,11 @@ Route::prefix('admin')->group(function () {
 
     Route::group(['middleware' => 'auth.admin'], function () {
         Route::get('/', 'Admin\IndexController@index');
+
         Route::resource('admin','Admin\AdminController');
+
+        Route::get('permission/child/{permission}','Admin\PermissionController@childIndex')->name('permission.child.index');
+        Route::resource('permission','Admin\PermissionController');
     });
 
     Route::get('login', 'Admin\Auth\LoginController@showLoginForm');

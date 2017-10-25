@@ -15,8 +15,8 @@ class AddRoutenameFidToPermissionsTable extends Migration
     {
         Schema::table('admin_permissions', function (Blueprint $table) {
             //
-            $table->string('route_name');
-            $table->integer('fid');
+            $table->string('route_name')->nullable();
+            $table->integer('fid')->nullable();
         });
     }
 

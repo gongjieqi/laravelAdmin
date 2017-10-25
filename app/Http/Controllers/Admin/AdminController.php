@@ -22,7 +22,7 @@ class AdminController extends Controller
         $admins = Admin::all();
 
         $roles = AdminRoles::all(['id','display_name']);
-        return view('admin.admin.index',['admins'=>$admins,'roles'=>$roles])->with('status', 'Profile updated!');;
+        return view('admin.admin.index',['admins'=>$admins,'roles'=>$roles]);
     }
 
     /**
@@ -81,7 +81,7 @@ class AdminController extends Controller
     public function edit($id)
     {
         //
-        $admin = Admin::find($id)->first();
+        $admin = Admin::find($id);
         $roles = AdminRoles::all(['id','name','display_name']);
         return view('admin.admin.edit',['admin'=>$admin,'roles'=>$roles]);
     }
@@ -96,7 +96,7 @@ class AdminController extends Controller
     public function update(EditAdminPostRequest $request, $id)
     {
         //1.有密码通过验证，修改密码
-        $admin = Admin::find($id)->first();
+        $admin = Admin::find($id);
 
         if(strlen($request->password) > 0){
             $admin->password = bcrypt($request->password);
