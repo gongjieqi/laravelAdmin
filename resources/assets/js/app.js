@@ -24,6 +24,7 @@ next();
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('create-user-button', require('./components/CreateUserButton.vue'));
 Vue.component('create-permission-button', require('./components/CreatePermissionButton.vue'));
+Vue.component('create-role-button', require('./components/CreateRoleButton.vue'));
 const app = new Vue({
     el: '#app'
 });

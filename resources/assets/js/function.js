@@ -13,3 +13,11 @@ function deletePermission(id)
         $('.permission-delete-'+id).submit();
     }
 }
+
+function deleteRole(id)
+{
+    var cn = confirm('确认删除这个角色？');
+    if(cn == true){
+        $('.role-delete-'+id).submit();
+    }
+}

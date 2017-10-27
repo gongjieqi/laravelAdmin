@@ -23,6 +23,8 @@ Route::prefix('admin')->group(function () {
 
         Route::get('permission/child/{permission}','Admin\PermissionController@childIndex')->name('permission.child.index');
         Route::resource('permission','Admin\PermissionController');
+
+        Route::resource('role','Admin\RoleController');
     });
 
     Route::get('login', 'Admin\Auth\LoginController@showLoginForm');

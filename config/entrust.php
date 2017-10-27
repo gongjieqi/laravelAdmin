@@ -96,6 +96,4 @@ return [
     |
     */
     'role_user_table' => 'admin_role_user',
-
-
 ];
