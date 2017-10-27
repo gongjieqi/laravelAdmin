@@ -5,11 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\AdminPermissions;
 use App\Http\Requests\PermissionCreateRequest;
 use App\Http\Requests\PermissionEditRequest;
+use App\Repositories\PermissionRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PermissionController extends Controller
 {
+
+
+    protected $permission;
+
+    public function __construct(PermissionRepository $permission)
+    {
+        $this->permission = $permission;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,19 +52,8 @@ class PermissionController extends Controller
     public function store(PermissionCreateRequest $request)
     {
         //
-        $permission = new AdminPermissions();
+        $this->permission->createPermission($request);
 
-        $permission->name = $request->name;
-
-        $permission->display_name = $request->display_name;
-
-        $permission->route_name = $request->route_name;
-
-        $permission->fid = $request->fid;
-
-        $permission->description = $request->description;
-
-        $permission->save();
     }
 
     /**
@@ -76,13 +75,9 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $return_array = $this->permission->getPermissionInfo($id);
 
-        $permission = AdminPermissions::find($id);
-
-        $fathers = ['顶级分类']+AdminPermissions::where('fid','0')->where('id','<>',$id)->pluck('display_name','id')->toArray();
-
-        return view('admin.permission.edit',['permission'=>$permission,'father'=>$fathers]);
+        return view('admin.permission.edit',$return_array);
     }
 
     /**
@@ -95,21 +90,12 @@ class PermissionController extends Controller
     public function update(PermissionEditRequest $request, $id)
     {
         //
-        $permission = AdminPermissions::find($id);
+        $update = $this->permission->updatePermissionInfo($request,$id);
 
-
-        $permission->display_name = $request->display_name;
-
-        $permission->route_name = $request->route_name;
-
-        $permission->fid = $request->fid;
-
-        $permission->description = $request->description;
-
-        if($permission->save()){
-            return redirect(route('permission.index'))->with('status', '编辑权限:'.$permission->display_name.'成功');
+        if($update){
+            return redirect(route('permission.index'))->with('status', '编辑成功');
         }else{
-            return redirect(route('permission.index'))->withErrors('status', '编辑权限:'.$permission->display_name.'成功');
+            return redirect(route('permission.index'))->withErrors('status', '编辑失败');
         }
     }
 

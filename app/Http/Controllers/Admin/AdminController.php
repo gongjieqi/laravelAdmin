@@ -6,11 +6,18 @@ use App\Admin;
 use App\AdminRoles;
 use App\Http\Requests\AdminCreateRequest;
 use App\Http\Requests\EditAdminPostRequest;
+use App\Repositories\AdminRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
+    protected $admin;
+
+    public function __construct(AdminRepository $admin)
+    {
+        $this->admin = $admin;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +25,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
         $admins = Admin::all();
 
         $roles = AdminRoles::all(['id','display_name']);
+
         return view('admin.admin.index',['admins'=>$admins,'roles'=>$roles]);
     }
 
@@ -44,20 +51,9 @@ class AdminController extends Controller
     public function store(AdminCreateRequest $request)
     {
         //
-        $admin = new Admin();
 
-        $admin->name = $request->name;
+        $this->admin->createAdminAndSaveRole($request);
 
-        $admin->password = bcrypt($request->password);
-
-        $admin->save();
-
-        if(count($request->role_ids > 0)){
-
-            $roles = AdminRoles::whereIn('id',$request->role_ids)->get();
-
-            $admin->attachRoles($roles);
-        }
         return response('success');
     }
 
@@ -95,39 +91,7 @@ class AdminController extends Controller
      */
     public function update(EditAdminPostRequest $request, $id)
     {
-        //1.有密码通过验证，修改密码
-        $admin = Admin::find($id);
-
-        if(strlen($request->password) > 0){
-            $admin->password = bcrypt($request->password);
-            $admin->save();
-        }
-
-        //2.修改角色
-        if(count($request->role_ids) <=0 ){
-            $admin->detachRoles($admin->roles);
-        }else{
-            $newRoles = AdminRoles::whereIn('id',$request->role_ids)->get();
-            $newRoleIds = [];
-            foreach($newRoles as $role){
-                if(!$admin->hasRole($role->name)){
-                    $admin->attachRole($role);
-                }
-                array_push($newRoleIds,$role->id);
-            }
-
-            $hasRoleIds = [];
-            foreach($admin->roles as $adminRole){
-                array_push($hasRoleIds,$adminRole->id);
-            }
-
-
-            foreach($hasRoleIds as $hasRoleId){
-                if(!in_array($hasRoleId,$newRoleIds)){
-                    $admin->roles()->detach($hasRoleId);
-                }
-            }
-        }
+        $admin = $this->admin->updateAdminAndRole($request,$id);
         return redirect(route('admin.index'))->with('status', '编辑用户:'.$admin->name.'成功');
     }
 
