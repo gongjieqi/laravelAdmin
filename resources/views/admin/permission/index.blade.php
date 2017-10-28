@@ -14,7 +14,7 @@
                     </div>
                     <div class="card-title">
                         <div class="title">
-                            <create-permission-button action_url="{{ route('permission.store') }}" father="{{ $father }}"></create-permission-button>
+                            <create-permission-button action_url="{{ route('permission.store') }}" father="{{ $father }}" child="{{ $is_child }}"></create-permission-button>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                         <tr>
                             <th>权限显示名称</th>
                             <th>权限名称</th>
-                            <th>路由</th>
+                            <th>分组</th>
                             <th>类别</th>
                             <th>操作</th>
                         </tr>
@@ -39,14 +39,14 @@
                                     {{ $Permission->name }}
                                 </td>
                                 <td>
-                                    {{ $Permission->route }}
+                                    {{ $Permission->group_name }}
                                 </td>
                                 <td>
                                     {{ $Permission->fatherName($Permission->fid) }}
                                 </td>
                                 <td>
                                     @if($Permission->fid == '0')
-                                        <a href="{{ route('permission.child.index',['id'=>$Permission->id]) }}" class="btn btn-success">Child</a>
+                                        <a href="{{ route('permission.child',['id'=>$Permission->id]) }}" class="btn btn-success">Child</a>
                                         |
                                     @endif
                                     <a href="{{ route('permission.edit',['id'=>$Permission->id]) }}" class="btn btn-info">编辑</a>

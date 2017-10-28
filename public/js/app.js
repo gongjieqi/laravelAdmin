@@ -44860,13 +44860,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['action_url', 'father'],
+    props: ['action_url', 'father', 'child'],
     data: function data() {
         return {
             allfather: eval('(' + this.father + ')'),
             name: '',
             display_name: '',
-            route_name: '',
+            group_name: '',
             description: '',
             fid: '',
             has_error: 'no',
@@ -44877,7 +44877,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         sumbit: function sumbit() {
-            this.$http.post(this.action_url, { 'name': this.name, 'display_name': this.display_name, 'route_name': this.route_name, 'description': this.description, 'fid': this.fid }).then(function (response) {
+            this.$http.post(this.action_url, { 'name': this.name, 'display_name': this.display_name, 'group_name': this.group_name, 'description': this.description, 'fid': this.fid }).then(function (response) {
                 window.location.reload();
             }, function (response) {
                 this.has_error = 'yes';
@@ -45029,19 +45029,19 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.route_name,
-                            expression: "route_name"
+                            value: _vm.group_name,
+                            expression: "group_name"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", name: "route_name" },
-                        domProps: { value: _vm.route_name },
+                        attrs: { type: "text", name: "group_name" },
+                        domProps: { value: _vm.group_name },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.route_name = $event.target.value
+                            _vm.group_name = $event.target.value
                           }
                         }
                       })
@@ -45082,9 +45082,11 @@ var render = function() {
                           }
                         },
                         [
-                          _c("option", { attrs: { value: "0" } }, [
-                            _vm._v("顶级分类")
-                          ]),
+                          _vm.child == "2"
+                            ? _c("option", { attrs: { value: "0" } }, [
+                                _vm._v("顶级分类")
+                              ])
+                            : _vm._e(),
                           _vm._v(" "),
                           _vm._l(_vm.allfather, function(father) {
                             return _c(

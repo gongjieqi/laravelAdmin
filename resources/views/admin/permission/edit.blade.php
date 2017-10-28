@@ -27,8 +27,8 @@
                         {!! Form::text('name',$permission->name,['class' => 'form-control','disabled']) !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::label('route_name', '路由') !!}
-                        {!! Form::text('route_name',$permission->route_name,['class' => 'form-control']) !!}
+                        {!! Form::label('group_name', '路由') !!}
+                        {!! Form::text('group_name',$permission->group_name,['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('fid', '分类') !!}

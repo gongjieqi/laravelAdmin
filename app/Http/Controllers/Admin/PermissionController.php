@@ -30,7 +30,7 @@ class PermissionController extends Controller
         //
         $topPermission = AdminPermissions::where('fid','0')->get();
 
-        return view('admin.permission.index',['Permissions'=>$topPermission,'father'=>$topPermission]);
+        return view('admin.permission.index',['Permissions'=>$topPermission,'father'=>$topPermission,'is_child'=>'2']);
     }
 
     /**
@@ -119,8 +119,8 @@ class PermissionController extends Controller
     {
         $topPermission = AdminPermissions::where('fid',$id)->get();
 
-        $father = AdminPermissions::where('id',$id)->first();
+        $father = AdminPermissions::where('id',$id)->get();
 
-        return view('admin.permission.index',['Permissions'=>$topPermission,'father'=>$father]);
+        return view('admin.permission.index',['Permissions'=>$topPermission,'father'=>$father,'is_child'=>'1']);
     }
 }

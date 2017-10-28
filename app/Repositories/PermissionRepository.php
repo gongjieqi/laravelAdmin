@@ -19,7 +19,7 @@ class PermissionRepository
 
         $permission->display_name = $request->display_name;
 
-        $permission->route_name = $request->route_name;
+        $permission->group_name = $request->group_name;
 
         $permission->fid = $request->fid;
 
@@ -44,7 +44,7 @@ class PermissionRepository
 
         $permission->display_name = $request->display_name;
 
-        $permission->route_name = $request->route_name;
+        $permission->group_name = $request->group_name;
 
         $permission->fid = $request->fid;
 

@@ -26,13 +26,13 @@
 
                             <div class="form-group">
                                 <label class="control-label">路由:</label>
-                                <input type="text" class="form-control" name="route_name" v-model="route_name">
+                                <input type="text" class="form-control" name="group_name" v-model="group_name">
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label">分类:</label>
                                 <select class="form-control" v-model="fid" name="fid">
-                                    <option value="0">顶级分类</option>
+                                    <option v-if="child == '2'" value="0">顶级分类</option>
                                     <option v-for="father in allfather" :value="father.id">----{{ father.display_name }}</option>
                                 </select>
                             </div>
@@ -55,13 +55,13 @@
 
 <script type="text/ecmascript-6">
     export default {
-        props:['action_url','father'],
+        props:['action_url','father','child'],
         data(){
             return {
                 allfather: eval('('+this.father+')'),
                 name:'',
                 display_name:'',
-                route_name:'',
+                group_name:'',
                 description:'',
                 fid:'',
                 has_error:'no',
@@ -72,7 +72,7 @@
         },
         methods:{
             sumbit(){
-                this.$http.post(this.action_url,{'name':this.name,'display_name':this.display_name,'route_name':this.route_name,'description':this.description,'fid':this.fid}).then(response => {
+                this.$http.post(this.action_url,{'name':this.name,'display_name':this.display_name,'group_name':this.group_name,'description':this.description,'fid':this.fid}).then(response => {
                     window.location.reload();
                 },function(response){
                     this.has_error = 'yes';
