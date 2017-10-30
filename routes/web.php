@@ -19,7 +19,10 @@ Route::prefix('admin')->group(function () {
     Route::group(['middleware' => 'auth.admin'], function () {
         Route::get('/', 'Admin\IndexController@index')->name('admin.home');
 
+        Route::get('profile','Admin\AdminController@profileForm')->name('admin.profile');
+        Route::post('profile','Admin\AdminController@profileUpdate')->name('admin.profile');
         Route::resource('admin','Admin\AdminController');
+
 
         Route::get('permission/child/{permission}','Admin\PermissionController@childIndex')->name('permission.child');
         Route::resource('permission','Admin\PermissionController');

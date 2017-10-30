@@ -95,7 +95,7 @@ class PermissionController extends Controller
         if($update){
             return redirect(route('permission.index'))->with('status', '编辑成功');
         }else{
-            return redirect(route('permission.index'))->withErrors('status', '编辑失败');
+            return redirect(route('permission.index'))->withErrors( '编辑失败');
         }
     }
 

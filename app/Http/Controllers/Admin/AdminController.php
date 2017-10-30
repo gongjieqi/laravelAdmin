@@ -6,6 +6,7 @@ use App\Admin;
 use App\AdminRoles;
 use App\Http\Requests\AdminCreateRequest;
 use App\Http\Requests\EditAdminPostRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Repositories\AdminRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -108,5 +109,19 @@ class AdminController extends Controller
         $delete =  Admin::find($id)->delete();
 
         return redirect()->back()->with('status', '删除用户成功');
+    }
+
+    public function profileForm()
+    {
+        return view('admin.admin.profile');
+    }
+
+    public function profileUpdate(ProfileUpdateRequest $request)
+    {
+
+        if($this->admin->updateProfile($request)) {
+            return redirect()->back()->with('status', '修改账户信息成功');
+        }
+        return redirect()->back()->withErrors( '修改账户信息失败，原密码错误');
     }
 }

@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Admin;
 use App\AdminRoles;
+use Illuminate\Support\Facades\Hash;
 
 class AdminRepository
 {
@@ -61,5 +62,20 @@ class AdminRepository
         }
 
         return $admin;
+    }
+
+    public function updateProfile($request)
+    {
+        $admin = auth()->guard('admin')->user();
+
+        if(strlen($request->old_password) > 0 && strlen($request->password) > 0){
+            if(Hash::check($request->old_password, $admin->password)){
+                $admin->password = bcrypt($request->password);
+                return $admin->save();
+            }else{
+                return false;
+            }
+        }
+        return true;
     }
 }

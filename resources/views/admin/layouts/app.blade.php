@@ -95,7 +95,7 @@
                                     <h4 class="username">{{ Auth::guard('admin')->user()->name }}</h4>
                                     <p>{{ Auth::guard('admin')->user()->role }}</p>
                                     <div class="btn-group margin-bottom-2x" role="group">
-                                        <button type="button" class="btn btn-default"><i class="fa fa-user"></i> Profile</button>
+                                        <button type="button" class="btn btn-default" onclick="window.location.href='{{ route('admin.profile') }}'"><i class="fa fa-user"></i> Profile</button>
                                         <a href="{{ route('admin.loginout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" type="button" class="btn btn-default"><i class="fa fa-sign-out"></i> Logout</a>
                                         <form id="logout-form" action="{{ route('admin.loginout') }}" method="POST" style="display: none;">
