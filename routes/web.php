@@ -29,6 +29,7 @@ Route::prefix('admin')->group(function () {
 
         Route::resource('role','Admin\RoleController');
 
+        Route::get('notification/{notification}', 'Admin\NotificationController@show')->name('notification.show');
         Route::get('test1', 'Admin\Auth\LoginController@showLoginForm')->name('test1.index');
     });
     Route::get('login', 'Admin\Auth\LoginController@showLoginForm');

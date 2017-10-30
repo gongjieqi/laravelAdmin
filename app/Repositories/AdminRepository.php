@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Admin;
 use App\AdminRoles;
+use App\Notifications\PermissionNotification;
 use Illuminate\Support\Facades\Hash;
 
 class AdminRepository
@@ -41,8 +42,10 @@ class AdminRepository
         }else{
             $newRoles = AdminRoles::whereIn('id',$request->role_ids)->get();
             $newRoleIds = [];
+            $needNotify = false;
             foreach($newRoles as $role){
                 if(!$admin->hasRole($role->name)){
+                    $needNotify = true;
                     $admin->attachRole($role);
                 }
                 array_push($newRoleIds,$role->id);
@@ -56,11 +59,14 @@ class AdminRepository
 
             foreach($hasRoleIds as $hasRoleId){
                 if(!in_array($hasRoleId,$newRoleIds)){
+                    $needNotify = true;
                     $admin->roles()->detach($hasRoleId);
                 }
             }
+            if($needNotify){
+                $admin->notify(new PermissionNotification($newRoles));
+            }
         }
-
         return $admin;
     }
 

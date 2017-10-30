@@ -25,7 +25,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label">路由:</label>
+                                <label class="control-label">分组:</label>
                                 <input type="text" class="form-control" name="group_name" v-model="group_name">
                             </div>
 

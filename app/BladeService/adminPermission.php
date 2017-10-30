@@ -48,6 +48,7 @@ class adminPermission
             if($this->admin->can($fatherPermission['name']) || $this->admin->hasRole('admin')) {
 
                 if(isset($currentPermission->fid) && $currentPermission->fid == $fatherPermission['id']){
+
                     $fatherLiClass = 'panel panel-default dropdown active';
                     $fatherDivClass = 'panel-collapse collapse in';
                 }else{
@@ -64,7 +65,7 @@ class adminPermission
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">';
                     foreach($fatherPermission['children'] as $childPermission){
-                        if($this->admin->can($fatherPermission['name']) || $this->admin->hasRole('admin')){
+                        if($this->admin->can($childPermission['name']) || $this->admin->hasRole('admin')){
                             if(isset($currentPermission->group_name) && $currentPermission->group_name == $childPermission['group_name']){
                                 $childStyle = 'color:#19B5FE';
                             }else{

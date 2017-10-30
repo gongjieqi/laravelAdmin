@@ -45,43 +45,13 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comments-o"></i></a>
                         <ul class="dropdown-menu animated fadeInDown">
                             <li class="title">
-                                Notification <span class="badge pull-right">0</span>
+                                Notification <span class="badge pull-right">{{ count(Auth::guard('admin')->user()->unreadNotifications) }}</span>
                             </li>
-                            <li class="message">
-                                No new notification
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown danger">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-star-half-o"></i> 4</a>
-                        <ul class="dropdown-menu danger  animated fadeInDown">
-                            <li class="title">
-                                Notification <span class="badge pull-right">4</span>
-                            </li>
-                            <li>
-                                <ul class="list-group notifications">
-                                    <a href="#">
-                                        <li class="list-group-item">
-                                            <span class="badge">1</span> <i class="fa fa-exclamation-circle icon"></i> new registration
-                                        </li>
-                                    </a>
-                                    <a href="#">
-                                        <li class="list-group-item">
-                                            <span class="badge success">1</span> <i class="fa fa-check icon"></i> new orders
-                                        </li>
-                                    </a>
-                                    <a href="#">
-                                        <li class="list-group-item">
-                                            <span class="badge danger">2</span> <i class="fa fa-comments icon"></i> customers messages
-                                        </li>
-                                    </a>
-                                    <a href="#">
-                                        <li class="list-group-item message">
-                                            view all
-                                        </li>
-                                    </a>
-                                </ul>
-                            </li>
+                            @foreach(Auth::guard('admin')->user()->unreadNotifications as $notification)
+                                <li class="message">
+                                    <a href="{{ route('notification.show',['id'=>$notification->id]) }}">{{ $notification->data['title'] }}</a>
+                                </li>
+                            @endforeach
                         </ul>
                     </li>
                     <li class="dropdown profile">
@@ -135,7 +105,7 @@
     </div>
     <footer class="app-footer">
         <div class="wrapper">
-            <span class="pull-right">2.1 <a href="#"><i class="fa fa-long-arrow-up"></i></a></span> © 2015 Copyright. More Templates - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+
         </div>
     </footer>
 </div>

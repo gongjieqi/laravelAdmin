@@ -45021,7 +45021,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { staticClass: "control-label" }, [
-                        _vm._v("路由:")
+                        _vm._v("分组:")
                       ]),
                       _vm._v(" "),
                       _c("input", {
