@@ -96,4 +96,11 @@ return [
     |
     */
     'role_user_table' => 'admin_role_user',
+
+    'role_foreign_key'=>'admin_roles_id',
+
+    'user_foreign_key'=>'admin_id',
+
+    'permission_foreign_key'=>'admin_permissions_id',
+
 ];
